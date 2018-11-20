@@ -6,7 +6,7 @@ Link to REST API document
 
 https://haagahelia-my.sharepoint.com/:b:/g/personal/h01270_haaga-helia_fi/EZoZfgW0l5lDlQ4t4RCAvSwBNzlBMzdnE6AB-2HWBtAZnA?e=ZFXrIs
 
-
+---------------------------------------------------------------------------------------
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
