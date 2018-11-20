@@ -1,3 +1,12 @@
+## Task Case:
+
+Personal Trainer company needs front end to their customer database. Database contains info about customers and their trainings. They have REST API and documentation which contains all information needed for front end development.
+
+Link to REST API document
+
+https://haagahelia-my.sharepoint.com/:b:/g/personal/h01270_haaga-helia_fi/EZoZfgW0l5lDlQ4t4RCAvSwBNzlBMzdnE6AB-2HWBtAZnA?e=ZFXrIs
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
