@@ -6,7 +6,6 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
 
 import Customers from '../views/customers';
 import Trainings from '../views/trainings';
@@ -24,7 +23,6 @@ class Navigator extends React.Component {
               <Typography variant="h6" color="inherit" className={classes.grow}>
                 Personal Trainer Company
               </Typography>
-              <Button color="inherit">Customer</Button>
               <Button disableRipple={true} component={Link} to="/" >
                 Customers
               </Button>
@@ -54,8 +52,11 @@ const styles = {
   },
   grow: {
     flexGrow: 1,
+    textAlign: 'left',
   },
 };
+
+window.__MUI_USE_NEXT_TYPOGRAPHY_VARIANTS__ = true;
 
 export default withStyles(styles)(Navigator);
 //export default connect(mapStateToProps, { logout })(withStyles(styles)(Navigator));

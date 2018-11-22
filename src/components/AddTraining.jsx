@@ -1,14 +1,20 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import compose from 'recompose/compose';
 import SkyLight from 'react-skylight';
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import SaveIcon from '@material-ui/icons/Save';
 import TextField from '@material-ui/core/TextField';
-
-import Typography from '@material-ui/core/Typography';
-import Modal from '@material-ui/core/Modal';
-import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
+import moment from 'moment';
+
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import withMobileDialog from '@material-ui/core/withMobileDialog';
 
 const styles = theme => ({
   paper: {
@@ -18,12 +24,20 @@ const styles = theme => ({
     boxShadow: theme.shadows[5],
     padding: theme.spacing.unit * 4,
   },
+  textField: {
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
+    width: 200,
+  },container: {
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
 });
 
 class AddTraining extends Component {
     constructor(props) {
         super(props);
-        this.state = { date: '', duration: '', activity: '', customer: '',open: false};
+        this.state = { date: moment().format("YYYY-MM-DDThh:mm"), duration: '', activity: '', customer: this.props.customer,open: false};
     }
 
     handleChange = (event) => {
@@ -35,13 +49,13 @@ class AddTraining extends Component {
     // Save training and load trainings and finally close modal
     handleSubmit = (event) => {
         event.preventDefault();
-        let newTraining = {date: this.state.date, duration: this.state.duration, activity: this.state.activity, customer: this.state.customer, };
+        let newTraining = {date: moment(this.state.date).format("YYYY-MM-DD"), duration: this.state.duration, activity: this.state.activity, customer: this.state.customer, };
         this.props.addTraining(newTraining);
         this.props.loadTrainings();
-        this.refs.simpleDialog.hide();
+        this.handleClose();
     }
     handleClose = (e) => {
-        this.setState({open: true});
+        this.setState({open: false});
     }
 
 
@@ -52,48 +66,43 @@ class AddTraining extends Component {
 
       // Add training page doesn't fit to default size modal
       const addTrainingDialog = {
-        width: '1000',
-        height: '70%',
-        top: '100',
-        left: '100',
+        position: 'absolute',
+        width: '70%',
+        marginTop: '450px',
+        marginLeft: '-35%',
       };
-
 
       return (
         <div>
-          <Modal
-            aria-labelledby="simple-modal-title"
-            aria-describedby="simple-modal-description"
-            open={this.state.open}
-            onClose={this.handleClose}
-          >
-            <div  className={classes.paper}>
-              <Typography variant="h6" id="modal-title">
-                Text in a modal
-              </Typography>
-              <Typography variant="subtitle1" id="simple-modal-description">
-                Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-              </Typography>
-            </div>
-          </Modal>
-
-          <Button style={{ margin: 10 }} variant="contained" color="primary" onClick={() => {/*this.refs.simpleDialog.show();*/ this.setState({open: true});}}><AddIcon /> New Training </Button>
-          <SkyLight hideOnOverlayClicked dialogStyles={addTrainingDialog} ref="simpleDialog" title="Add a customer">
-            <TextField id="date" label="Date" placeholder="Date" margin="normal" name="date"
-              onChange={this.handleChange} value={this.state.date} /><br></br>
-            <TextField id="duration" label="Duration" placeholder="Duration" margin="normal" name="duration"
-                onChange={this.handleChange} value={this.state.duration} /><br></br>
-            <TextField id="activity" label="Activity" placeholder="Activity" margin="normal" name="activity"
-                onChange={this.handleChange} value={this.state.activity} /><br></br>
-              <TextField id="customer" label="Customer" placeholder="Customer" margin="normal" name="customer"
-                onChange={this.handleChange} value={this.state.customer} /><br></br>
-              <Button style={{ margin: 10 }} variant="contained" color="secondary" onClick={this.handleSubmit}><SaveIcon /> Save Training </Button>
-          </SkyLight>
+          <Button style={{ margin: 10 }} variant="contained" color="primary" onClick={() => this.setState({open : true})/*this.refs.simpleDialog.show()*/}><AddIcon /> New Training </Button>
+            <Dialog
+                open={this.state.open}
+                onClose={this.handleClose}
+                aria-labelledby="form-dialog-title"
+                scroll="body"
+            >
+              <DialogTitle id="form-dialog-title">{"Add a custome"}r</DialogTitle>
+              <DialogContent >
+                <TextField id="date" label="Date" placeholder="Date" margin="normal" name="date" onChange={this.handleChange} value={this.state.date} type="datetime-local"
+                  className={classes.textField} InputLabelProps={{ shrink: true,}} /><br></br>
+                <TextField id="duration" label="Duration" placeholder="Duration" margin="normal" name="duration"
+                    onChange={this.handleChange} value={this.state.duration} className={classes.textField} /><br></br>
+                <TextField id="activity" label="Activity" placeholder="Activity" margin="normal" name="activity"
+                    onChange={this.handleChange} value={this.state.activity} className={classes.textField} /><br></br>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={this.handleClose} color="primary">
+                  Cancel
+                </Button>
+                <Button style={{ margin: 10 }} variant="contained" color="secondary"
+                  onClick={this.handleSubmit} autoFocus> <SaveIcon /> Save Training
+                </Button>
+              </DialogActions>
+            </Dialog>
         </div>
       );
     }
 }
-
 
 AddTraining.propTypes = {
   classes: PropTypes.object.isRequired,

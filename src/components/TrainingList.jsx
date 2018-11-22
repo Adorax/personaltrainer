@@ -14,6 +14,8 @@ import Tooltip from '@material-ui/core/Tooltip';
 import SaveIcon from '@material-ui/icons/Save';
 import CloseIcon from '@material-ui/icons/Close';
 
+import moment from 'moment';
+
 class TrainingList extends Component {
 
   constructor(props) {
@@ -68,24 +70,6 @@ class TrainingList extends Component {
     })
   }
 
-  // Update training
-  updateTraining(training, link) {
-    fetch(link,
-    {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json', },
-      body: JSON.stringify(training)
-    })
-    .then(
-      this.setState({ snackbar: {message: 'Training updated', open: true,}})
-    )
-    .catch( err => console.error(err))
-  }
-
-  handleClose = (event, reason) => {
-      this.setState({ snackbar: {message: '', open: false,}});
-  };
-
   renderEditable = (cellInfo) => {
     return (
       <div
@@ -104,6 +88,23 @@ class TrainingList extends Component {
     );
   }
 
+  renderEditableDate = (cellInfo) => {
+    return (
+      <div
+        style={{ backgroundColor: "#fafafa" }}
+        contentEditable
+        suppressContentEditableWarning
+        onBlur={e => {
+          const data = [...this.state.trainings];
+          data[cellInfo.index][cellInfo.column.id] = e.target.innerHTML;
+          this.setState({ trainings: data });
+        }}
+      >
+        {moment(this.state.trainings[cellInfo.index][cellInfo.column.id]).format("dddd D.MM.YYYY - HH:mm")}
+      </div>
+    );
+  }
+
   render() {
 
       const columns =[
@@ -114,7 +115,10 @@ class TrainingList extends Component {
         {
           Header: "Date",
           accessor: "date",
-          Cell: this.renderEditable
+          type: 'datetime',
+          Cell: this.renderEditableDate,
+          width: 250
+
         },
         {
           Header: "Duration",
@@ -125,20 +129,6 @@ class TrainingList extends Component {
           Header: "Activity",
           accessor: "activity",
           Cell: this.renderEditable
-        },
-        {
-          id: 'button',
-          sortable: false,
-          filterable: false,
-          width: 100,
-          accessor: 'links.0.href',
-          Cell: ({value, row}) => (
-                <Tooltip title='Update' placement='top'>
-                    <IconButton onClick={() => this.updateTraining(row,value)} aria-label='update'>
-                        <SaveIcon />
-                    </IconButton>
-                </Tooltip>
-            )
         },
         {
           id: 'button',
@@ -159,7 +149,7 @@ class TrainingList extends Component {
       return (
           <div className="App-body">
             <div className="row">
-              <AddTraining addTraining={this.addTraining} loadTrainings={this.loadTrainings} />
+              <AddTraining customer={null} addTraining={this.addTraining} loadTrainings={this.loadTrainings} />
               <CSVLink style={{padding: 20}} data={this.state.trainings}>Download CSV</CSVLink>
             </div>
             <ReactTable data={this.state.trainings} columns={columns} filterable className="-highlight" defaultPageSize={10} />

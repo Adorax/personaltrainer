@@ -5,6 +5,7 @@ import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import {CSVLink, CSVDownload} from 'react-csv';
 import AddCustomer from './AddCustomer';
+import AddTraining from './AddTraining';
 
 import Snackbar from '@material-ui/core/Snackbar';
 import Button from '@material-ui/core/Button';
@@ -86,6 +87,27 @@ class Customerlist extends Component {
   handleClose = (event, reason) => {
       this.setState({ snackbar: {message: '', open: false,}});
   };
+
+  addTraining(training) {
+    console.log(training);
+    fetch('https://customerrest.herokuapp.com/api/trainings/',
+    {   method: 'POST',
+        headers: { 'Content-Type': 'application/json', },
+        body: JSON.stringify(training)
+    })
+    .then(res => this.loadTrainings())
+    .catch(err => console.error(err))
+  }
+
+  loadTrainings = () => {
+    fetch('https://customerrest.herokuapp.com/api/trainings/')
+    .then((response) => response.json())
+    .then((responseData) => {
+      this.setState({
+        trainings: responseData.content,
+      });
+    })
+  }
 
   renderEditable = (cellInfo) => {
     return (
@@ -182,10 +204,8 @@ class Customerlist extends Component {
           width: 100,
           accessor: 'links.0.href',
           Cell: ({value}) => (
-              <Tooltip title='Add training' placement='right'>
-                <Button variant="fab" aria-label="Add" >
-                  <AddIcon />
-                </Button>
+              <Tooltip title='Add training' placement='top'>
+                <AddTraining customer={value} addTraining={this.addTraining} loadTrainings={this.loadTrainings}/>
               </Tooltip>
           )
         }
