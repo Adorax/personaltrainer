@@ -173,7 +173,7 @@ class Customerlist extends Component {
           id: 'button',
           sortable: false,
           filterable: false,
-          width: 100,
+          width: 60,
           accessor: 'links.0.href',
           Cell: ({value, row}) => (
                 <Tooltip title='Update' placement='right'>
@@ -187,7 +187,7 @@ class Customerlist extends Component {
           id: 'button',
           sortable: false,
           filterable: false,
-          width: 100,
+          width: 60,
           accessor: 'links.0.href',
           Cell: ({value}) => (
               <Tooltip title='Delete' placement='right'>
@@ -201,7 +201,7 @@ class Customerlist extends Component {
           id: 'button',
           sortable: false,
           filterable: false,
-          width: 100,
+          width: 150,
           accessor: 'links.0.href',
           Cell: ({value}) => (
               <Tooltip title='Add training' placement='top'>

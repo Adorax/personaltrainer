@@ -1,3 +1,5 @@
+// route/Navigation.jsx
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import { BrowserRouter, Route, Switch, Link } from "react-router-dom";
@@ -9,6 +11,7 @@ import Button from '@material-ui/core/Button';
 
 import Customers from '../views/customers';
 import Trainings from '../views/trainings';
+import Calendar from '../views/calendar';
 
 class Navigator extends React.Component {
 
@@ -29,11 +32,15 @@ class Navigator extends React.Component {
               <Button disableRipple={true} component={Link} to="/trainings">
                 Trainings
               </Button>
+              <Button disableRipple={true} component={Link} to="/calendar">
+                Calendar
+              </Button>
             </Toolbar>
           </AppBar>
           <Switch>
             <Route exact path="/" component={Customers}/>
             <Route path="/trainings" component={Trainings}/>
+            <Route path="/calendar" component={Calendar}/>
             <Route render={() => <h1>Page not found</h1>}/>
           </Switch>
         </div>

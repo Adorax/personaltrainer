@@ -149,8 +149,8 @@ class TrainingList extends Component {
       return (
           <div className="App-body">
             <div className="row">
-              <AddTraining customer={null} addTraining={this.addTraining} loadTrainings={this.loadTrainings} />
-              <CSVLink style={{padding: 20}} data={this.state.trainings}>Download CSV</CSVLink>
+            {/*  <AddTraining customer={null} addTraining={this.addTraining} loadTrainings={this.loadTrainings} /> */}
+          <CSVLink style={{padding: 20}} data={this.state.trainings}>Download CSV</CSVLink>
             </div>
             <ReactTable data={this.state.trainings} columns={columns} filterable className="-highlight" defaultPageSize={10} />
             <Snackbar

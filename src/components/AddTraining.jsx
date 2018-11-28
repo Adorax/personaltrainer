@@ -37,7 +37,7 @@ const styles = theme => ({
 class AddTraining extends Component {
     constructor(props) {
         super(props);
-        this.state = { date: moment().format("YYYY-MM-DDThh:mm"), duration: '', activity: '', customer: this.props.customer,open: false};
+        this.state = { date: moment().format("YYYY-MM-DDTHH:mm"), duration: '', activity: '', customer: this.props.customer,open: false};
     }
 
     handleChange = (event) => {
@@ -49,7 +49,7 @@ class AddTraining extends Component {
     // Save training and load trainings and finally close modal
     handleSubmit = (event) => {
         event.preventDefault();
-        let newTraining = {date: moment(this.state.date).format("YYYY-MM-DD"), duration: this.state.duration, activity: this.state.activity, customer: this.state.customer, };
+        let newTraining = {date: moment(this.state.date).format("YYYY-MM-DDTHH:mm:ss.sss+0200"), duration: this.state.duration, activity: this.state.activity, customer: this.state.customer, };
         this.props.addTraining(newTraining);
         this.props.loadTrainings();
         this.handleClose();
@@ -74,7 +74,7 @@ class AddTraining extends Component {
 
       return (
         <div>
-          <Button style={{ margin: 10 }} variant="contained" color="primary" onClick={() => this.setState({open : true})/*this.refs.simpleDialog.show()*/}><AddIcon /> New Training </Button>
+          <Button style={{ margin: 10 }} variant="contained" color="primary" onClick={() => this.setState({open : true})/*this.refs.simpleDialog.show()*/}><AddIcon /> Training </Button>
             <Dialog
                 open={this.state.open}
                 onClose={this.handleClose}
