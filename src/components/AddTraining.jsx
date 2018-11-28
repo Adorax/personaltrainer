@@ -81,7 +81,7 @@ class AddTraining extends Component {
                 aria-labelledby="form-dialog-title"
                 scroll="body"
             >
-              <DialogTitle id="form-dialog-title">{"Add a custome"}r</DialogTitle>
+              <DialogTitle id="form-dialog-title">{"Add a training"}</DialogTitle>
               <DialogContent >
                 <TextField id="date" label="Date" placeholder="Date" margin="normal" name="date" onChange={this.handleChange} value={this.state.date} type="datetime-local"
                   className={classes.textField} InputLabelProps={{ shrink: true,}} /><br></br>
